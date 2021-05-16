@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS Overlay</title>
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/vue.global.js"></script>
+    <script src="/static/js/anime.js" defer></script>
+    <script src="/static/js/score_bar.js" defer></script>
+</head>
+
+<body>
+    <div class="score-bar" id="score_bar">
+        <div class="columns is-vcentered">
+            <div class="column has-text-centered">
+                <div class="team-name-container">
+                    <nav class="level">
+                        <div class="level-left">
+                            <figure class="image is-48x48">
+                                <img src="/static/assets/team_logos/delta_force.png">
+                            </figure>
+                        </div>
+                        <div class="level-item">
+                            <h1 class="title red-team">[[team_one_name]]</h1>
+                        </div>
+                        <div class="level-right">
+                            <h1 class="title">[[team_one_score]]</h1>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-two-fifths has-text-centered">
+                <h1 class="title" id="main_title">[[current_text]]</h1>
+            </div>
+            <div class="column has-text-centered">
+                <div class="team-name-container">
+                    <nav class="level">
+                        <div class="level-left">
+                            <h1 class="title">[[team_two_score]]</h1>
+                        </div>
+                        <div class="level-item">
+                            <h1 class="title blue-team">[[team_two_name]]</h1>
+                        </div>
+                        <div class="level-right">
+                            <figure class="image is-48x48">
+                                <img src="/static/assets/team_logos/fotia.png">
+                            </figure>
+                        </div>
+                    </nav>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

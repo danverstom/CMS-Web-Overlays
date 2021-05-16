@@ -1,0 +1,33 @@
+:root { /* Defining some variables */
+    --cms_dark: #131313;
+    --cms_light: #ffffff;
+    --cms_primary: #7d0000;
+    --cms_secondary: #382a2a;
+    --cms_dim: #242424;
+}
+
+.team-name-container {
+    background-color: var(--cms_dim);
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.score-bar {
+    background-color: var(--cms_dark);
+    width: 100%;
+    padding: 5px;
+    height: 60px;
+    align-items: center;
+    align-content: center;
+    display: grid;
+}
+
+.blue-team{
+    color: #0052d6;
+}
+
+.red-team{
+    color: #d60000;
+}

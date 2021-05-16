@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+$dark_purple: #71368a;
+
+$cms_dark: #131313;
+$cms_dim: #242424;
+$cms_light: #ffffff;
+$cms_primary: #7d0000;
+$cms_secondary: #382a2a;
+
+// Update Bulma's global variables
+$family-sans-serif: "Overpass", sans-serif;
+$primary: $cms_primary;
+$link: $dark_purple;
+$navbar-background-color: $cms_dark;
+$title-color: $cms_light;
+$title-family: "Akira", sans-serif;
+
+$body-background-color: $cms_secondary;
+
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";

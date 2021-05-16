@@ -1,0 +1,53 @@
+@font-face {
+    font-family: Akira;
+    src: url(/static/fonts/akira.otf);
+}
+
+@font-face {
+    font-family: Overpass;
+    src: url(/static/fonts/overpass.ttf);
+ }
+ 
+ @font-face {
+    font-family: Pakenham;
+    src: url(/static/fonts/pakenham.ttf);
+ }
+ 
+ @font-face {
+    font-family: PermanentMarker;
+    src: url(/static/fonts/permanentmarker.ttf);
+ }
+ 
+ @font-face {
+    font-family: SteelFish;
+    src: url(/static/fonts/steelfish.ttf);
+ }
+ 
+ @font-face {
+    font-family: VerdanaBold;
+    src: url(/static/fonts/verdanab.ttf);
+ }
+
+.akira{
+    font-family: Akira;
+}
+
+.verdana{
+    font-family: VerdanaBold;
+}
+
+.steelfish{
+    font-family: SteelFish;
+}
+
+.marker{
+    font-family: PermanentMarker;
+}
+
+.pakenham{
+    font-family: Pakenham;
+}
+
+.overpass{
+    font-family: Overpass;
+}
