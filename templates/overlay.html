@@ -12,6 +12,7 @@
     <script src="/static/js/vue.global.js"></script>
     <script src="/static/js/anime.js" defer></script>
     <script src="/static/js/score_bar.js" defer></script>
+    <script src="/static/js/info_cards.js" defer></script>
 </head>
 
 <body>
@@ -62,50 +63,51 @@
         <div class="columns is-vcentered" style="height: 800px;">
             <div class="column"></div>
             <div class="column is-one-quarter is-vcentered">
-                <div class="card" style="width: 300px">
-                    <div class="card-header">
-                        <p class="card-header-title akira">Commentators</p>
-                    </div>
-                    <div class="card-content">
-                        <nav class="level">
-                            <div class="level-left">
-                                <figure class="image is-32x32">
-                                    <img src="https://cravatar.eu/helmavatar/TomD53/48.png" class="playerhead">
-                                </figure>
-                                <p class="akira" style="margin-left: 10px;">TomD53</p>
+                <div id="info_cards">
+                    <transition @enter="cardEnter" @leave="cardLeave">
+                        <div class="card" style="width: 300px" v-if="commentators.length && show_commentators">
+                            <div class="card-header">
+                                <p class="card-header-title akira">Commentators</p>
                             </div>
-                        </nav>
-                        <nav class="level">
-                            <div class="level-left">
-                                <figure class="image is-32x32">
-                                    <img src="https://cravatar.eu/helmavatar/Ninsanity/48.png" class="playerhead">
-                                </figure>
-                                <p class="akira" style="margin-left: 10px;">Ninsanity</p>
+                            <div class="card-content">
+                                <nav class="level" v-for="commentator in commentators">
+                                    <div class="level-left">
+                                        <figure class="image is-32x32">
+                                            <img :src="'https://cravatar.eu/helmavatar/' + [[ commentator ]] + '/48.png'"
+                                                class="playerhead">
+                                        </figure>
+                                        <p class="akira" style="margin-left: 10px;">[[commentator]]</p>
+                                    </div>
+                                </nav>
                             </div>
-                        </nav>
+                        </div>
+                    </transition>
+                    <transition @enter="cardEnter" @leave="cardLeave"></transition>
+                    <div class="card" style="width: 300px;"
+                        v-if="show_notification && notification.description && notification.title">
+                        <div class="card-header">
+                            <p class="card-header-title akira">[[notification.title]]</p>
+                        </div>
+                        <div class="card-content">
+                            <p class="akira">[[notification.description]]</p>
+                        </div>
                     </div>
-                </div>
-                <div class="card" style="width: 300px;">
-                    <div class="card-header">
-                        <p class="card-header-title akira">Notification Card</p>
+                    </transition>
+                    <transition @enter="cardEnter" @leave="cardLeave"></transition>
+                    <div class="card" style="width: 300px" v-if="show_next_map_card">
+                        <div class="card-header">
+                            <p class="card-header-title akira" @click="testAnimation">Next Map</p>
+                        </div>
+                        <div class="card-image" v-if="next_map_card.map_id">
+                            <figure class="image">
+                                <img :src="'/static/assets/map_previews/' + [[next_map_card.map_id]] + '.jpg'"></video>
+                            </figure>
+                        </div>
+                        <div class="card-content" v-if="next_map_card.description">
+                            <p class="akira">[[next_map_card.description]]</p>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <p class="akira">This card could be used to show a notification, give an update about a
-                            game, or make an announcement</p>
-                    </div>
-                </div>
-                <div class="card" style="width: 300px">
-                    <div class="card-header">
-                        <p class="card-header-title akira">Next Map</p>
-                    </div>
-                    <div class="card-image">
-                        <figure class="image">
-                            <img src="/static/assets/map_previews/lowrise.jpg"></video>
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <p class="akira">Map Two will be Lowrise</p>
-                    </div>
+                    </transition>
                 </div>
             </div>
         </div>
