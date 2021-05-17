@@ -31,3 +31,28 @@
 .red-team{
     color: #d60000;
 }
+
+.card{
+    width: 300px;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.playerhead{
+    border-radius: 5px;
+}
+
+.hidden{
+    display: none;
+}
+
+body{
+    overflow:hidden;
+}
+
+html{
+    overflow: hidden;
+    background-color: rgba(0,0,0,0);
+}

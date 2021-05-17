@@ -21,7 +21,11 @@ $navbar-background-color: $cms_dark;
 $title-color: $cms_light;
 $title-family: "Akira", sans-serif;
 
-$body-background-color: $cms_secondary;
+$body-background-color: $cms_dim;
+
+$card-background-color: $cms_dark;
+$card-header-color: $cms_light;
+$card-radius: 15px;
 
 
 // Import only what you need from Bulma

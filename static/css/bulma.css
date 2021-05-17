@@ -263,7 +263,7 @@ th {
     text-align: inherit; }
 
 html {
-  background-color: #382a2a;
+  background-color: #242424;
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -3018,20 +3018,20 @@ a.tag:hover {
     content: "\0227B"; }
 
 .card {
-  background-color: white;
-  border-radius: 0.25rem;
+  background-color: #131313;
+  border-radius: 15px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #4a4a4a;
   max-width: 100%;
   position: relative; }
 
 .card-header:first-child, .card-content:first-child, .card-footer:first-child {
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem; }
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px; }
 
 .card-header:last-child, .card-content:last-child, .card-footer:last-child {
-  border-bottom-left-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem; }
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px; }
 
 .card-header {
   background-color: transparent;
@@ -3041,7 +3041,7 @@ a.tag:hover {
 
 .card-header-title {
   align-items: center;
-  color: #363636;
+  color: #ffffff;
   display: flex;
   flex-grow: 1;
   font-weight: 700;
@@ -3060,11 +3060,11 @@ a.tag:hover {
   display: block;
   position: relative; }
   .card-image:first-child img {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem; }
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px; }
   .card-image:last-child img {
-    border-bottom-left-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem; }
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px; }
 
 .card-content {
   background-color: transparent;
