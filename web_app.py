@@ -19,7 +19,7 @@ async def home():
     return await render_template("overlay.html")
 
 @app.route("/broadcast")
-async def broadcase_test():
+async def broadcast_test():
     if not connected_websockets:
         return "no connected clients"
     print(connected_websockets)

@@ -1,7 +1,7 @@
 const InfoCards = {
     data() {
         return {
-            commentators: ["TomD53", "Ninsanity"],
+            commentators: ["TomD53", "asdkjmnafgjikanqsf"],
             show_commentators: false,
 
             notification: {
@@ -70,6 +70,7 @@ const InfoCards = {
                         duration = data.duration;
                     }
                     context.show_commentators = true;
+                    context.commentators = data.commentators;
                     setTimeout(function () {
                         context.show_commentators = false;
                     }, duration);
@@ -83,6 +84,18 @@ const InfoCards = {
                     context.show_notification = true;
                     setTimeout(function () {
                         context.show_notification = false;
+                    }, duration);
+                } else if (data.card == "next_map") {
+                    var duration = 10000;
+                    if (data.duration) {
+                        duration = data.duration;
+                    }
+                    context.next_map_card.title = data.title;
+                    context.next_map_card.map_id = data.map_id;
+                    context.next_map_card.description = data.description;
+                    context.show_next_map_card = true;
+                    setTimeout(function () {
+                        context.show_next_map_card = false;
                     }, duration);
                 }
             }
