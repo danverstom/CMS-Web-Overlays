@@ -12,7 +12,6 @@ const ScoreBar = {
     mounted() {
         setInterval(() => {
             var context = this;
-            console.log("looping");
             var t1 = anime.timeline();
             t1.add({
                 targets: "#main_title",
@@ -21,13 +20,9 @@ const ScoreBar = {
                 duration: 200,
                 easing: 'easeInOutSine',
                 complete: function () {
-                    console.log("fade out complete");
                     var new_text = context.text_items.shift();
-                    console.log(context.text_items);
                     context.text_items.push(new_text);
-                    console.log(new_text);
                     context.current_text = new_text;
-                    console.log(context.current_text);
                 }
             })
             t1.add({

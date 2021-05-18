@@ -82,32 +82,34 @@
                             </div>
                         </div>
                     </transition>
-                    <transition @enter="cardEnter" @leave="cardLeave"></transition>
-                    <div class="card" style="width: 300px;"
-                        v-if="show_notification && notification.description && notification.title">
-                        <div class="card-header">
-                            <p class="card-header-title akira">[[notification.title]]</p>
+                    <transition @enter="cardEnter" @leave="cardLeave">
+                        <div class="card" style="width: 300px;"
+                            v-if="show_notification && notification.description && notification.title">
+                            <div class="card-header">
+                                <p class="card-header-title akira">[[notification.title]]</p>
+                            </div>
+                            <div class="card-content">
+                                <p class="akira">[[notification.description]]</p>
+                            </div>
                         </div>
-                        <div class="card-content">
-                            <p class="akira">[[notification.description]]</p>
-                        </div>
-                    </div>
                     </transition>
-                    <transition @enter="cardEnter" @leave="cardLeave"></transition>
-                    <div class="card" style="width: 300px" v-if="show_next_map_card">
-                        <div class="card-header">
-                            <p class="card-header-title akira" @click="testAnimation">Next Map</p>
+                    <transition @enter="cardEnter" @leave="cardLeave">
+                        <div class="card" style="width: 300px" v-if="show_next_map_card">
+                            <div class="card-header">
+                                <p class="card-header-title akira">Next Map</p>
+                            </div>
+                            <div class="card-image" v-if="next_map_card.map_id">
+                                <figure class="image">
+                                    <img
+                                        :src="'/static/assets/map_previews/' + [[next_map_card.map_id]] + '.jpg'"></video>
+                                </figure>
+                            </div>
+                            <div class="card-content" v-if="next_map_card.description">
+                                <p class="akira">[[next_map_card.description]]</p>
+                            </div>
                         </div>
-                        <div class="card-image" v-if="next_map_card.map_id">
-                            <figure class="image">
-                                <img :src="'/static/assets/map_previews/' + [[next_map_card.map_id]] + '.jpg'"></video>
-                            </figure>
-                        </div>
-                        <div class="card-content" v-if="next_map_card.description">
-                            <p class="akira">[[next_map_card.description]]</p>
-                        </div>
-                    </div>
                     </transition>
+
                 </div>
             </div>
         </div>
