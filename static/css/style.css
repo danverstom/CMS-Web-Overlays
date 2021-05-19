@@ -4,6 +4,7 @@
     --cms_primary: #7d0000;
     --cms_secondary: #382a2a;
     --cms_dim: #242424;
+    --cms_dark_blue: #272A35;
 }
 
 .team-name-container {
@@ -56,4 +57,16 @@ body{
 html{
     overflow: hidden;
     background-color: rgba(0,0,0,0);
+}
+
+.primary-title{
+    font-size: 100px;
+    color: var(--cms_light);
+    line-height: 90px;
+    
+}
+
+.secondary-title{
+    font-size: 50px;
+    color: var(--cms_light);
 }
