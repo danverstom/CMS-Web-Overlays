@@ -33,3 +33,5 @@ Create the file `utils/credentials.json` and enter the bot token from the Discor
     {
         "bot_token": "your_token_here"
     }
+
+Edit the SLASH_COMMANDS_GUILDS list in `utils/config.py` and replace the ID with the guild ID of the server in which you intend to use slash commands
