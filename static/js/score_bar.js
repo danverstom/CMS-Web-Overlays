@@ -48,7 +48,8 @@ const ScoreBar = {
     },
     delimiters: ['[[', ']]'],
     created: function () {
-        setInterval(this.getScoreBarData(), 10000);
+        this.getScoreBarData();
+        setInterval(this.getScoreBarData, 15000);
         this.connection = new WebSocket('ws://' + document.domain + ':' + location.port + '/ws/scorebar');
         var context = this;
         this.connection.onmessage = function (event) {
@@ -63,6 +64,7 @@ const ScoreBar = {
     methods: {
         async getScoreBarData() {
             // Function to GET score bar data from /get_score_bar_data
+            console.log("getting score bar data");
             var response = await fetch("/get_score_bar_data");
             var data = await response.json();
             this.updateScoreBarData(data);

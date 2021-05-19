@@ -8,8 +8,7 @@ from web_app import app
 import os
 
 # Websockets Support
-from functools import wraps
-import asyncio
+from utils.websockets import *
 from quart import websocket
 
 score_bar_data = {
@@ -28,14 +27,14 @@ async def get_score_bar_data():
     return jsonify(score_bar_data)
 
 
-class ScoreBarCommands(Cog, name="Score Bar Commands"):
+class ScoreBarCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
     """
     This category contains commands which control the team names and scores banner
     """
 
     def __init__(self, bot):
+        super().__init__()
         self.bot = bot
-        self.connected_websockets = set()
 
         @app.websocket("/ws/scorebar")
         @self.collect_websocket
@@ -46,27 +45,6 @@ class ScoreBarCommands(Cog, name="Score Bar Commands"):
             while True:
                 data = await queue.get()
                 await websocket.send_json(data)
-
-    def collect_websocket(self, func):
-        @wraps(func)
-        async def wrapper(*args, **kwargs):
-            queue = asyncio.Queue()
-            self.connected_websockets.add(queue)
-            try:
-                return await func(queue, *args, **kwargs)
-            finally:
-                self.connected_websockets.remove(queue)
-        return wrapper
-
-    async def broadcast(self, message):
-        messages_sent = 0
-        for queue in self.connected_websockets:
-            await queue.put(message)
-            messages_sent += 1
-        if not messages_sent:
-            return False
-        else:
-            return messages_sent
 
     @cog_slash(name="teams", description="Set up the teams for the score bar",
                guild_ids=SLASH_COMMANDS_GUILDS, options=[
