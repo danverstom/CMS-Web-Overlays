@@ -7,14 +7,52 @@ from difflib import get_close_matches
 from mojang import MojangAPI
 import os
 
+# Websockets Support
+from web_app import app
+from functools import wraps
+import asyncio
+from quart import websocket
 
-class CardCommands(Cog, name="Base Commands"):
+
+class CardCommands(Cog, name="Card Commands"):
     """
     This category contains commands which control on-screen notifications and cards
     """
 
     def __init__(self, bot):
         self.bot = bot
+        self.connected_websockets = set()
+
+        @app.websocket("/ws/cards")
+        @self.collect_websocket
+        async def cards_ws(queue):
+            await websocket.send_json({
+                "action_type": "connected"
+            })
+            while True:
+                data = await queue.get()
+                await websocket.send_json(data)
+
+    def collect_websocket(self, func):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            queue = asyncio.Queue()
+            self.connected_websockets.add(queue)
+            try:
+                return await func(queue, *args, **kwargs)
+            finally:
+                self.connected_websockets.remove(queue)
+        return wrapper
+
+    async def broadcast(self, message):
+        messages_sent = 0
+        for queue in self.connected_websockets:
+            await queue.put(message)
+            messages_sent += 1
+        if not messages_sent:
+            return False
+        else:
+            return messages_sent
 
     @cog_slash(name="commentators", description="Shows commentators to viewers",
                options=[manage_commands.create_option(
@@ -34,7 +72,7 @@ class CardCommands(Cog, name="Base Commands"):
             if not uuid:
                 await error_embed(ctx, f"Could not find minecraft account for IGN `{name}`")
                 return
-        messages_sent = await broadcast(
+        messages_sent = await self.broadcast(
             {"action_type": "show_card",
             "card": "commentators", 
             "duration": 10000,
@@ -60,7 +98,7 @@ class CardCommands(Cog, name="Base Commands"):
                )], guild_ids=SLASH_COMMANDS_GUILDS)
     async def notification(self, ctx, title, description):
         await ctx.defer()
-        messages_sent = await broadcast({
+        messages_sent = await self.broadcast({
             "action_type": "show_card",
             "card": "notification",
             "duration": 10000,
@@ -95,7 +133,7 @@ class CardCommands(Cog, name="Base Commands"):
         if not os.path.isfile(f"static/assets/map_previews/{map_id}.jpg"):
             await error_embed(ctx, f"No preview image available for map `{map_name}`")
             return
-        messages_sent = await broadcast(
+        messages_sent = await self.broadcast(
             {
                 "action_type": "show_card",
                 "card": "next_map",

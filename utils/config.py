@@ -18,3 +18,5 @@ ADMIN_ROLE = "Leader"
 
 WEB_SERVER_HOSTNAME = "localhost"
 WEB_SERVER_PORT = 8080
+
+SCORE_BAR_TEXT_ITEMS = ["CTF Match Spotlight", "Season Two"]

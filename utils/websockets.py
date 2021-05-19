@@ -3,6 +3,7 @@ from functools import wraps
 
 connected_websockets = set()
 
+
 def collect_websocket(func):
     @wraps(func)
     async def wrapper(*args, **kwargs):
@@ -14,6 +15,7 @@ def collect_websocket(func):
         finally:
             connected_websockets.remove(queue)
     return wrapper
+
 
 async def broadcast(message):
     messages_sent = 0

@@ -57,7 +57,7 @@ const InfoCards = {
     delimiters: ['[[', ']]'],
     created: function () {
         // Open the websocket that listens for popups
-        this.connection = new WebSocket('ws://' + document.domain + ':' + location.port + '/ws');
+        this.connection = new WebSocket('ws://' + document.domain + ':' + location.port + '/ws/cards');
         var context = this;
         this.connection.onmessage = function (event) {
             console.log(event);

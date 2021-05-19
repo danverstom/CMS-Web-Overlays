@@ -18,38 +18,38 @@
 <body>
     <div class="score-bar" id="score_bar">
         <div class="columns is-vcentered">
-            <div class="column has-text-centered">
+            <div class="column has-text-centered is-vcentered">
                 <div class="team-name-container">
-                    <nav class="level">
-                        <div class="level-left">
-                            <figure class="image is-48x48">
-                                <img src="/static/assets/team_logos/delta_force.png">
+                    <nav class="level" style="height: 100%;">
+                        <div class="level-left" style="height: 100%;">
+                            <figure class="image is-48x48" v-if="red_logo">
+                                <img :src="[[red_logo]]">
                             </figure>
                         </div>
                         <div class="level-item">
-                            <h1 class="title red-team">[[team_one_name]]</h1>
+                            <h1 class="title red-team">[[red_name]]</h1>
                         </div>
                         <div class="level-right">
-                            <h1 class="title">[[team_one_score]]</h1>
+                            <h1 class="title">[[red_score]]</h1>
                         </div>
                     </nav>
                 </div>
             </div>
-            <div class="column is-two-fifths has-text-centered">
+            <div class="column is-two-fifths has-text-centered is-vcentered">
                 <h1 class="title" id="main_title">[[current_text]]</h1>
             </div>
-            <div class="column has-text-centered">
+            <div class="column has-text-centered is-vcentered">
                 <div class="team-name-container">
-                    <nav class="level">
+                    <nav class="level" style="height: 100%;">
                         <div class="level-left">
-                            <h1 class="title">[[team_two_score]]</h1>
+                            <h1 class="title">[[blue_score]]</h1>
                         </div>
                         <div class="level-item">
-                            <h1 class="title blue-team">[[team_two_name]]</h1>
+                            <h1 class="title blue-team">[[blue_name]]</h1>
                         </div>
-                        <div class="level-right">
-                            <figure class="image is-48x48">
-                                <img src="/static/assets/team_logos/fotia.png">
+                        <div class="level-right" style="height: 100%;">
+                            <figure class="image is-48x48" v-if="blue_logo">
+                                <img :src="[[blue_logo]]">
                             </figure>
                         </div>
                     </nav>
