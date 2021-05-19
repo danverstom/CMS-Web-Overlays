@@ -52,18 +52,12 @@ const InfoCards = {
             setTimeout(function () {
                 context.show_commentators = false;
             }, 5000);
-        }
-    },
-    delimiters: ['[[', ']]'],
-    created: function () {
-        // Open the websocket that listens for popups
-        this.connection = new WebSocket('ws://' + document.domain + ':' + location.port + '/ws/cards');
-        var context = this;
-        this.connection.onmessage = function (event) {
-            console.log(event);
-            var data = JSON.parse(event.data);
-            console.log(data);
-            if (data.action_type == "show_card") {
+        },
+        handleWebSocketMessage(data) {
+            var context = this;
+            if (data.action_type == "connected") {
+                this.createNotification("Connected", "Successfully connected to server. Ready to go!", 5000);
+            } else if (data.action_type == "show_card") {
                 if (data.card == "commentators") {
                     var duration = 10000;
                     if (data.duration) {
@@ -99,7 +93,40 @@ const InfoCards = {
                     }, duration);
                 }
             }
+        },
+        connectWebSocket(context, endpoint) {
+            context.connection = new WebSocket('ws://' + document.domain + ':' + location.port + endpoint);
+            context.connection.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                console.log(data);
+                context.handleWebSocketMessage(data);
+            };
+            context.connection.onclose = function (event) {
+                console.log('Socket is closed. Reconnect will be attempted in 1 second.');
+                context.current_text = "Websocket Disconnected";
+                setTimeout(function () {
+                    context.connectWebSocket(context, endpoint);
+                }, 1000);
+            };
+            context.connection.onerror = function (error) {
+                console.error('Socket encountered error: ', error.message, 'Closing socket');
+                context.connection.close();
+            };
+        },
+        createNotification(title, description, duration) {
+            this.notification.title = title;
+            this.notification.description = description;
+            this.show_notification = true;
+            var context = this;
+            setTimeout(function () {
+                context.show_notification = false;
+            }, duration);
         }
+    },
+    delimiters: ['[[', ']]'],
+    created: function () {
+        // Open the websocket that listens for popups
+        this.connectWebSocket(this, "/ws/cards")
     }
 }
 

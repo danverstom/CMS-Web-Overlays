@@ -23,6 +23,80 @@ const ScoreBar = {
     },
     mounted() {
         setInterval(() => {
+            this.cycleTextItems();
+        }, 15000)
+    },
+    delimiters: ['[[', ']]'],
+    created: function () {
+        this.getScoreBarData();
+        setInterval(this.getScoreBarData, 15000);
+        this.connectWebSocket(this, "/ws/scorebar")
+    },
+    methods: {
+        getScoreBarData() {
+            // Function to GET score bar data from /get_score_bar_data
+            var context = this;
+            fetch("/get_score_bar_data")
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log(data);
+                    context.updateScoreBarData(data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    if (error instanceof TypeError) {
+                        context.current_text = "Network Error";
+                        setTimeout(() => {
+                            context.cycleTextItems();
+                        }, 2000);
+                    }
+                });
+        },
+        updateScoreBarData(data) {
+            if (!arrayEquals(last_text_items, data.text_items)) {
+                this.text_items = data.text_items;
+            }
+            last_text_items = data.text_items;
+            this.red_name = data.red_name;
+            this.red_score = data.red_score;
+            this.red_logo = data.red_logo;
+            this.blue_name = data.blue_name;
+            this.blue_score = data.blue_score;
+            this.blue_logo = data.blue_logo;
+        },
+        handleWebSocketMessage(data) {
+            if (data.action_type == "connected") {
+                this.current_text = "Websocket Connected";
+                setTimeout(() => {
+                    this.cycleTextItems();
+                }, 2000);
+            } else if (data.action_type == "update_score_bar_data") {
+                this.updateScoreBarData(data.score_bar_data);
+            }
+        },
+        connectWebSocket(context, endpoint) {
+            context.connection = new WebSocket('ws://' + document.domain + ':' + location.port + endpoint);
+            context.connection.onmessage = function (event) {
+                var data = JSON.parse(event.data);
+                console.log(data);
+                context.handleWebSocketMessage(data);
+            };
+            context.connection.onclose = function (event) {
+                console.log('Socket is closed. Reconnect will be attempted in 1 second.');
+                context.current_text = "Websocket Disconnected";
+                setTimeout(function () {
+                    context.connectWebSocket(context, endpoint);
+                    context.cycleTextItems();
+                }, 1000);
+            };
+            context.connection.onerror = function (error) {
+                console.error('Socket encountered error: ', error.message, 'Closing socket');
+                context.connection.close();
+            };
+        },
+        cycleTextItems(){
             var context = this;
             var t1 = anime.timeline();
             t1.add({
@@ -44,42 +118,6 @@ const ScoreBar = {
                 duration: 200,
                 easing: 'easeInOutSine',
             })
-        }, 15000)
-    },
-    delimiters: ['[[', ']]'],
-    created: function () {
-        this.getScoreBarData();
-        setInterval(this.getScoreBarData, 15000);
-        this.connection = new WebSocket('ws://' + document.domain + ':' + location.port + '/ws/scorebar');
-        var context = this;
-        this.connection.onmessage = function (event) {
-            console.log(event);
-            var data = JSON.parse(event.data);
-            console.log(data);
-            if (data.action_type == "update_score_bar_data") {
-                context.updateScoreBarData(data.score_bar_data);
-            }
-        }
-    },
-    methods: {
-        async getScoreBarData() {
-            // Function to GET score bar data from /get_score_bar_data
-            console.log("getting score bar data");
-            var response = await fetch("/get_score_bar_data");
-            var data = await response.json();
-            this.updateScoreBarData(data);
-        },
-        updateScoreBarData(data){
-            if (!arrayEquals(last_text_items, data.text_items)){
-                this.text_items = data.text_items;
-            }
-            last_text_items = data.text_items;
-            this.red_name = data.red_name;
-            this.red_score = data.red_score;
-            this.red_logo = data.red_logo;
-            this.blue_name = data.blue_name;
-            this.blue_score = data.blue_score;
-            this.blue_logo = data.blue_logo;
         }
     }
 }
