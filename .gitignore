@@ -131,3 +131,5 @@ dmypy.json
 static\node_modules
 static/node_modules/*
 utils/credentials.json
+static/css/bulma.css
+generate_requirements.bat
