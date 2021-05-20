@@ -70,3 +70,8 @@ html{
     font-size: 50px;
     color: var(--cms_light);
 }
+
+.dark-gradient{
+    background: rgb(82,90,120);
+    background: linear-gradient(65deg, rgba(82,90,120,1) 0%, rgba(0,0,0,1) 100%);
+}

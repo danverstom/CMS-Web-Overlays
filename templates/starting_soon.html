@@ -11,77 +11,58 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/node_modules/vue/dist/vue.global.js"></script>
     <script src="/static/node_modules/animejs/lib/anime.min.js" defer></script>
-    <script src="/static/js/score_bar.js" defer></script>
-    <script src="/static/js/info_cards.js" defer></script>
+    <script src="/static/js/starting_soon.js" defer></script>
+    <link rel="shortcut icon" type="image/png" href="/static/assets/icon.png" />
 </head>
 
 <body>
-    <section class="hero is-fullheight" style="background: rgb(82,90,120);
-    background: linear-gradient(65deg, rgba(82,90,120,1) 0%, rgba(0,0,0,1) 100%);">
+    <section class="hero is-fullheight dark-gradient" id="starting_soon">
         <div class="hero-body">
             <div class="columns is-vcentered">
                 <div class="column is-half is-vcentered">
                     <p class="primary-title akira">
-                        CTF MATCH SPOTLIGHT
+                        [[title_text]]
                     </p>
                     <p class="secondary-title akira">
-                        Starting Soon
+                        [[small_title_text]]
                     </p>
-                    <hr style="width: 70%;">
-                    <p class="primary-title akira" id="time">
-                        06:32
-                    </p>
-                    <script>function startTimer(duration, display) {
-                        var timer = duration, minutes, seconds;
-                        setInterval(function () {
-                            minutes = parseInt(timer / 60, 10);
-                            seconds = parseInt(timer % 60, 10);
-                    
-                            minutes = minutes < 10 ? "0" + minutes : minutes;
-                            seconds = seconds < 10 ? "0" + seconds : seconds;
-                    
-                            display.textContent = minutes + ":" + seconds;
-                    
-                            if (--timer < 0) {
-                                timer = duration;
-                            }
-                        }, 1000);
-                    }
-                    
-                    window.onload = function () {
-                        var fiveMinutes = 60 * 5,
-                            display = document.querySelector('#time');
-                        startTimer(fiveMinutes, display);
-                    };</script>
+                    <div v-if="timer_active">
+                        <hr style="width: 70%;">
+                        <p class="primary-title akira">
+                            [[timer_display]]
+                        </p>
+                    </div>
                 </div>
-                <div class="columnis-vcentered is-half">
-                    <p class="secondary-title akira">
-                        Today's Teams
-                    </p>
+                <div class="columnis-vcentered is-half"
+                    style="outline: 2px solid var(--cms_light); padding: 40px; border-radius: 20px;">
+                    <div class="has-text-centered" style="width: 100%;">
+                        <p class="secondary-title akira">
+                            Today's Teams
+                        </p>
+                    </div>
+
                     <hr>
                     <nav class="level">
-                        <div class="level-left">
-                            <h1 class="secondary-title akira">
-                                FOtia
-                            </h1>
-                            
-                        </div>
-                        <div class="level-right">
-                            <img src="/static/assets/team_logos/fotia.png" style="height: 200px;">
-                        </div>
-                    </nav>
-                    <nav class="level">
-                        <div class="level-left">
+                        <div class="level-left" style="width: 450px;">
                             <p class="secondary-title akira" style="width: 400px;">
-                                Delta Force
+                                [[red_name]]
                             </p>
-                            
                         </div>
                         <div class="level-right">
-                            <img src="/static/assets/team_logos/delta_force.png" style="height: 200px;">
+                            <img :src="[[red_logo]]" style="height: 200px;">
                         </div>
                     </nav>
-                    
+                    <hr v-if="!red_logo || !blue_logo">
+                    <nav class="level">
+                        <div class="level-left" style="width: 450px;">
+                            <p class="secondary-title akira blue-team" style="width: 400px;">
+                                [[blue_name]]
+                            </p>
+                        </div>
+                        <div class="level-right">
+                            <img :src="[[blue_logo]]" style="height: 200px;">
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>
