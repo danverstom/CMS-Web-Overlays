@@ -1,4 +1,5 @@
 from discord.ext.commands import Cog
+from discord import Activity, ActivityType
 from discord_slash.cog_ext import cog_slash, manage_commands
 from quart import jsonify
 from utils.utils import *
@@ -91,6 +92,12 @@ class ScoreBarCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
             await success_embed(ctx, f"Sent next new score bar data to `{messages_sent}` clients.")
         else:
             await error_embed(ctx, "No web clients connected")
+        await self.bot.change_presence(
+            activity=Activity(
+                type=ActivityType.watching,
+                name=f"{score_bar_data['red_name']} vs {score_bar_data['blue_name']}"
+            )
+        )
 
     @cog_slash(name="scores", description="Set up the teams for the score bar",
                guild_ids=SLASH_COMMANDS_GUILDS, options=[
