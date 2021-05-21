@@ -3,6 +3,7 @@ from discord import File, Embed, Colour
 import os
 import sys
 import platform
+import subprocess
 from utils.utils import *
 
 # Slash commands support
