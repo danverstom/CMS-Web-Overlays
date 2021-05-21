@@ -14,6 +14,7 @@ const StartingSoon = {
             blue_logo: "/static/assets/team_logos/les_berets.png",
 
             display_teams: false,
+            timer_interval: false
         }
     },
     created: function () {
@@ -24,11 +25,10 @@ const StartingSoon = {
     },
     methods: {
         startTimer(durationMinutes) {
-            this.timer_active = true;
             var duration = durationMinutes * 60;
-            context = this;
+            var context = this;
             var timer = duration, minutes, seconds;
-            var interval = setInterval(function () {
+            context.timer_interval = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
                 seconds = parseInt(timer % 60, 10);
 
@@ -36,9 +36,10 @@ const StartingSoon = {
                 seconds = seconds < 10 ? "0" + seconds : seconds;
 
                 context.timer_display = minutes + ":" + seconds;
+                context.timer_active = true;
 
                 if (--timer < 0) {
-                    clearInterval(interval);
+                    clearInterval(context.timer_interval);
                     console.log("worked")
                     //context.timer_display = "Please Wait";
                     setTimeout(() => {
@@ -72,12 +73,15 @@ const StartingSoon = {
             if (data.action_type == "connected") {
                 console.log("Websocket Connected")
             } else if (data.action_type == "toggle_teams_display") {
-                this.display_teams = !this.display_teams;
+                this.display_teams = data.display_teams;
             } else if (data.action_type == "update_score_bar_data") {
                 this.red_name = data.score_bar_data.red_name
                 this.red_logo = data.score_bar_data.red_logo;
                 this.blue_name = data.score_bar_data.blue_name;
                 this.blue_logo = data.score_bar_data.blue_logo;
+            } else if (data.action_type == "start_timer") {
+                clearInterval(this.timer_interval);
+                this.startTimer(data.duration);
             }
         },
         connectWebSocket(context, endpoint) {
@@ -93,10 +97,7 @@ const StartingSoon = {
             };
             context.connection.onclose = function (event) {
                 console.log('Socket is closed. Reconnect will be attempted in 1 second.');
-                var old_text = context.small_title_text;
-                context.small_title_text = "Websocket Disconnected";
                 setTimeout(function () {
-                    context.small_title_text = old_text;
                     context.connectWebSocket(context, endpoint);
                 }, 1000);
             };

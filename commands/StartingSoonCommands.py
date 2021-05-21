@@ -22,6 +22,7 @@ class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
+        self.display_teams = False
 
         @app.websocket("/ws/starting_soon")
         @self.collect_websocket
@@ -37,13 +38,38 @@ class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
                description="Toggle the display of teams on the starting soon page",
                guild_ids=SLASH_COMMANDS_GUILDS)
     async def toggleteams(self, ctx):
+        self.display_teams = not self.display_teams
         messages_sent = await self.broadcast(
             {
                 "action_type": "toggle_teams_display",
+                "display_teams": self.display_teams,
                 "score_bar_data": score_bar_data
             }
         )
         if messages_sent:
-            await success_embed(ctx, f"Sent toggle teams command to `{messages_sent}` clients.")
+            await success_embed(ctx, f"Set team info display state to `{self.display_teams}` for `{messages_sent}` clients.")
+        else:
+            await error_embed(ctx, "No web clients connected")
+    
+    @cog_slash(name="countdown",
+               description="Start a countdown on the starting soon page",
+               guild_ids=SLASH_COMMANDS_GUILDS,
+               options=[
+                   manage_commands.create_option(
+                       name="minutes", 
+                       description="The timer duration in minutes. Default 5 minutes", 
+                       option_type=4, 
+                       required=False
+                    )
+               ])
+    async def countdown(self, ctx, minutes: int = 5):
+        messages_sent = await self.broadcast(
+            {
+                "action_type": "start_timer",
+                "duration": minutes
+            }
+        )
+        if messages_sent:
+            await success_embed(ctx, f"Sent {minutes} minute countdown command to `{messages_sent}` clients.")
         else:
             await error_embed(ctx, "No web clients connected")
