@@ -14,11 +14,7 @@ from utils.websockets import *
 from quart import websocket
 
 
-class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
-    """
-    This category contains commands which control the team names and scores banner
-    """
-
+class TitlePageCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
@@ -28,7 +24,9 @@ class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
         @self.collect_websocket
         async def starting_soon_ws(queue):
             await websocket.send_json({
-                "action_type": "connected"
+                "action_type": "connected",
+                "ws_type": "starting_soon",
+                "display_teams": self.display_teams
             })
             while True:
                 data = await queue.get()
@@ -52,7 +50,7 @@ class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
             await error_embed(ctx, "No web clients connected")
     
     @cog_slash(name="countdown",
-               description="Start a countdown on the starting soon page",
+               description="Start a countdown on the starting soon page. ",
                guild_ids=SLASH_COMMANDS_GUILDS,
                options=[
                    manage_commands.create_option(
@@ -71,5 +69,28 @@ class StartingSoonCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
         )
         if messages_sent:
             await success_embed(ctx, f"Sent {minutes} minute countdown command to `{messages_sent}` clients.")
+        else:
+            await error_embed(ctx, "No web clients connected")
+
+    @cog_slash(name="intervalmessage",
+               description="Sets the status text for the interval page",
+               guild_ids=SLASH_COMMANDS_GUILDS,
+               options=[
+                   manage_commands.create_option(
+                       name="text", 
+                       description="The text to display", 
+                       option_type=3, 
+                       required=True
+                    )
+               ])
+    async def intervalmessage(self, ctx, text):
+        messages_sent = await self.broadcast(
+            {
+                "action_type": "set_interval_text",
+                "interval_text": text
+            }
+        )
+        if messages_sent:
+            await success_embed(ctx, f"Sent new interval text to `{messages_sent}` clients.")
         else:
             await error_embed(ctx, "No web clients connected")

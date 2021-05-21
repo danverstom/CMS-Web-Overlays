@@ -1,9 +1,9 @@
-const StartingSoon = {
+const IntervalPage = {
     delimiters: ['[[', ']]'],
     data() {
         return {
             title_text: "CTF Match Spotlight",
-            small_title_text: "Starting Soon",
+            small_title_text: "Be Right Back",
             timer_display: "00:00",
             timer_active: false,
 
@@ -70,8 +70,9 @@ const StartingSoon = {
                 });
         },
         handleWebSocketMessage(data) {
+            console.log(data);
             if (data.action_type == "connected") {
-                console.log("Websocket Connected")
+                console.log("Websocket Connected");
                 if (data.ws_type == "starting_soon") {
                     this.display_teams = data.display_teams;
                     console.log(this.display_teams);
@@ -86,6 +87,8 @@ const StartingSoon = {
             } else if (data.action_type == "start_timer") {
                 clearInterval(this.timer_interval);
                 this.startTimer(data.duration);
+            } else if (data.action_type == "set_interval_text") {
+                this.small_title_text = data.interval_text;
             }
         },
         connectWebSocket(context, endpoint) {
@@ -96,7 +99,6 @@ const StartingSoon = {
             }
             context.connection = new WebSocket(ws_protocol + document.domain + ':' + location.port + endpoint); context.connection.onmessage = function (event) {
                 var data = JSON.parse(event.data);
-                console.log(data);
                 context.handleWebSocketMessage(data);
             };
             context.connection.onclose = function (event) {
@@ -137,4 +139,4 @@ const StartingSoon = {
     },
 }
 
-var app = Vue.createApp(StartingSoon).mount("#starting_soon")
+var app = Vue.createApp(IntervalPage).mount("#interval")

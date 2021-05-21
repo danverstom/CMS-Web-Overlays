@@ -18,6 +18,10 @@ async def home():
 async def starting_soon():
     return await render_template("starting_soon.html")
 
+@app.route("/interval")
+async def interval():
+    return await render_template("interval.html")
+
 
 if __name__ == "__main__":
     app.run(WEB_SERVER_HOSTNAME, WEB_SERVER_PORT)

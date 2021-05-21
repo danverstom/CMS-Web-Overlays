@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS Starting Soon</title>
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/node_modules/vue/dist/vue.global.js"></script>
+    <script src="/static/node_modules/animejs/lib/anime.min.js" defer></script>
+    <script type="module" src="/static/js/interval.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="/static/assets/icon.png" />
+</head>
+
+<body>
+    <section class="hero is-fullheight dark-gradient" id="interval">
+        <div class="hero-body">
+            <div class="columns is-vcentered">
+                <div class="column is-half is-vcentered">
+                    <p class="primary-title akira">
+                        [[title_text]]
+                    </p>
+                    <p class="secondary-title akira">
+                        [[small_title_text]]
+                    </p>
+                    <div v-if="timer_active">
+                        <hr style="width: 70%;">
+                        <p class="primary-title akira">
+                            [[timer_display]]
+                        </p>
+                    </div>
+                </div>
+                <transition @enter="enter" @leave="leave">
+                    <div class="is-vcentered teams-container" v-if="display_teams">
+                        <div class="has-text-centered" style="width: 100%;">
+                            <p class="secondary-title akira">
+                                Today's Teams
+                            </p>
+                        </div>
+
+                        <hr>
+                        <nav class="level">
+                            <div class="level-left" style="width: 450px;">
+                                <p class="secondary-title akira" style="width: 400px;">
+                                    [[red_name]]
+                                </p>
+                            </div>
+                            <div class="level-right">
+                                <img :src="[[red_logo]]" style="height: 200px;">
+                            </div>
+                        </nav>
+                        <hr v-if="!red_logo || !blue_logo">
+                        <nav class="level">
+                            <div class="level-left" style="width: 450px;">
+                                <p class="secondary-title akira blue-team" style="width: 400px;">
+                                    [[blue_name]]
+                                </p>
+                            </div>
+                            <div class="level-right">
+                                <img :src="[[blue_logo]]" style="height: 200px;">
+                            </div>
+                        </nav>
+                    </div>
+                </transition>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
