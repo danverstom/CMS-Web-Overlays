@@ -7,8 +7,12 @@ app.secret_key = token_urlsafe(32)
 
 
 @app.route("/overlay")
-async def home():
+async def overlay():
     return await render_template("overlay.html")
+
+@app.route("/")
+async def home():
+    return await render_template("home.html")
 
 
 if __name__ == "__main__":
