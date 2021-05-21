@@ -1,4 +1,5 @@
-:root { /* Defining some variables */
+:root {
+    /* Defining some variables */
     --cms_dark: #131313;
     --cms_light: #ffffff;
     --cms_primary: #7d0000;
@@ -26,15 +27,15 @@
     display: grid;
 }
 
-.blue-team{
+.blue-team {
     color: #0052d6;
 }
 
-.red-team{
+.red-team {
     color: #d60000;
 }
 
-.card{
+.card {
     width: 300px;
     margin-left: auto;
     margin-right: 20px;
@@ -42,36 +43,41 @@
     margin-bottom: 10px;
 }
 
-.playerhead{
+.playerhead {
     border-radius: 5px;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-body{
-    overflow:hidden;
-}
-
-html{
+body {
     overflow: hidden;
-    background-color: rgba(0,0,0,0);
 }
 
-.primary-title{
+html {
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.primary-title {
     font-size: 100px;
     color: var(--cms_light);
     line-height: 90px;
-    
 }
 
-.secondary-title{
+.secondary-title {
     font-size: 50px;
     color: var(--cms_light);
 }
 
-.dark-gradient{
-    background: rgb(82,90,120);
-    background: linear-gradient(65deg, rgba(82,90,120,1) 0%, rgba(0,0,0,1) 100%);
+.dark-gradient {
+    background: rgb(82, 90, 120);
+    background: linear-gradient(65deg, rgba(82, 90, 120, 1) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.teams-container {
+    outline: 2px solid var(--cms_light);
+    padding: 40px;
+    border-radius: 20px;
 }

@@ -77,7 +77,12 @@ const ScoreBar = {
             }
         },
         connectWebSocket(context, endpoint) {
-            context.connection = new WebSocket('ws://' + document.domain + ':' + location.port + endpoint);
+            var ws_protocol = "ws://";
+            if (location.protocol == "https:") {
+                console.log("HTTPS detected, using secure sockets");
+                ws_protocol = "wss://"
+            }
+            context.connection = new WebSocket(ws_protocol + document.domain + ':' + location.port + endpoint)
             context.connection.onmessage = function (event) {
                 var data = JSON.parse(event.data);
                 console.log(data);

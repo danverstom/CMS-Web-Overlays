@@ -14,6 +14,10 @@ async def overlay():
 async def home():
     return await render_template("home.html")
 
+@app.route("/starting_soon")
+async def starting_soon():
+    return await render_template("starting_soon.html")
+
 
 if __name__ == "__main__":
     app.run(WEB_SERVER_HOSTNAME, WEB_SERVER_PORT)

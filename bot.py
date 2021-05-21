@@ -14,10 +14,12 @@ slash = SlashCommand(bot, sync_commands=SYNC_COMMANDS)
 from commands.AdminCommands import AdminCommands
 from commands.CardCommands import CardCommands
 from commands.ScoreBarCommands import ScoreBarCommands
+from commands.StartingSoonCommands import StartingSoonCommands
 
 bot.add_cog(AdminCommands(bot, slash, bot_token))
 bot.add_cog(CardCommands(bot))
 bot.add_cog(ScoreBarCommands(bot))
+bot.add_cog(StartingSoonCommands(bot))
 
 @bot.event
 async def on_ready():
