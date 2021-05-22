@@ -66,7 +66,7 @@
             <div class="column is-one-quarter is-vcentered">
                 <div id="info_cards">
                     <transition @enter="cardEnter" @leave="cardLeave">
-                        <div class="card" style="width: 300px" v-if="commentators.length && show_commentators">
+                        <div class="card card-right" style="width: 300px" v-if="commentators.length && show_commentators">
                             <div class="card-header">
                                 <p class="card-header-title akira">Commentators</p>
                             </div>
@@ -84,7 +84,7 @@
                         </div>
                     </transition>
                     <transition @enter="cardEnter" @leave="cardLeave">
-                        <div class="card" style="width: 300px;"
+                        <div class="card card-right" style="width: 300px;"
                             v-if="show_notification && notification.description && notification.title">
                             <div class="card-header">
                                 <p class="card-header-title akira">[[notification.title]]</p>
@@ -95,7 +95,7 @@
                         </div>
                     </transition>
                     <transition @enter="cardEnter" @leave="cardLeave">
-                        <div class="card" style="width: 300px" v-if="show_next_map_card">
+                        <div class="card card-right" style="width: 300px" v-if="show_next_map_card">
                             <div class="card-header">
                                 <p class="card-header-title akira">Next Map</p>
                             </div>

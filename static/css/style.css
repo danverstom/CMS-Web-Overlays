@@ -35,7 +35,7 @@
     color: #d60000;
 }
 
-.card {
+.card-right {
     width: 300px;
     margin-left: auto;
     margin-right: 20px;
@@ -80,4 +80,20 @@ html {
     outline: 2px solid var(--cms_light);
     padding: 40px;
     border-radius: 20px;
+}
+
+.rosters-level{
+    padding: 30px;
+}
+
+.rosters-head{
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.rosters-team-name-level{
+    margin-top: 50px; 
+    width: 70%; 
+    margin-left: auto;
+    margin-right: auto;
 }

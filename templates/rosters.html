@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS Starting Soon</title>
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/node_modules/vue/dist/vue.global.js"></script>
+    <script src="/static/node_modules/animejs/lib/anime.min.js" defer></script>
+    <script type="module" src="/static/js/rosters.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="/static/assets/icon.png" />
+</head>
+
+<body>
+    <section class="hero is-fullheight" id="rosters" style="background-color: var(--cms_dark_blue);">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="rosters-container">
+                    <nav class="level rosters-level" v-for="name_group in usernames">
+                        <div class="level-item" v-for="name in name_group">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="container has-text-centered">
+                                        <h1 class="title steelfish" style="margin: 10px;">[[name]]</h1>
+                                    </div>
+                                </div>
+                                <div>
+                                        <img :src="'https://cravatar.eu/helmavatar/' + [[ name ]] + '/128.png'" class="rosters-head"></img>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
