@@ -24,9 +24,9 @@ const InfoCards = {
             el.classList.remove("hidden");
             anime({
                 targets: el,
-                translateX: [30, 0],
+                translateX: [-30, 0],
                 opacity: [0, 1],
-                rotateZ: [5, 0],
+                rotateZ: [-5, 0],
                 easing: 'easeOutBack',
                 duration: 500,
                 complete: done
@@ -35,9 +35,9 @@ const InfoCards = {
         cardLeave(el, done) {
             anime({
                 targets: el,
-                translateX: [0, 30],
+                translateX: [0, -30],
                 opacity: [1, 0],
-                rotateZ: [0, 5],
+                rotateZ: [0, -5],
                 easing: 'easeOutBack',
                 duration: 500,
                 complete: function () {

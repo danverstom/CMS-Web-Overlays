@@ -43,6 +43,14 @@
     margin-bottom: 10px;
 }
 
+.card-left {
+    width: 300px;
+    margin-right: auto;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .playerhead {
     border-radius: 5px;
 }
