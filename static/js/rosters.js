@@ -6,24 +6,27 @@ const Rosters = {
             upper_usernames: [],
             lower_usernames: [],
             team_logo: "",
+            team_name: "",
 
-            rosters: [
-                {
-                    usernames: [
-                        "bigwiwi", "Wrongerbox", "B_Swan", "colorr", "Daveeeeeeeee", "redboo123",
-                        "Aussi", "2OO8", "Bloomishly", "Chactation", "Clener", "Foodcourt"
-                    ],
-                    logo: "/static/assets/team_logos/the_monkeys.png",
-                },
-                {
-                    usernames: [
-                        "TomD53", "pestoo", "eeyore6", "gamren", "Islendingur", "Cherriie",
-                        "Carowinds", "TomD53", "Arzuloria", "CertifiedPlexer", "FireTurtle", "redboo123"
-                    ],
-                    logo: "/static/assets/team_logos/fotia.png",
-                }
-            ]
+            current_roster: "red",
 
+            red_roster: {
+                usernames: [
+                    "bigwiwi", "Wrongerbox", "B_Swan", "colorr", "Daveeeeeeeee", "redboo123",
+                    "Aussi", "2OO8", "Bloomishly", "Chactation", "Clener", "Foodcourt"
+                ],
+                logo: "",
+                name: "The Monkeys"
+            },
+
+            blue_roster: {
+                usernames: [
+                    "TomD53", "pestoo", "eeyore6", "gamren", "Islendingur", "Cherriie",
+                    "Carowinds", "TomD53", "Arzuloria", "CertifiedPlexer", "FireTurtle", "redboo123"
+                ],
+                logo: "/static/assets/team_logos/fotia.png",
+                name: "Fotia"
+            }
         }
     },
     methods: {
@@ -44,10 +47,16 @@ const Rosters = {
                 easing: "easeInBack",
                 duration: 500,
                 complete: function(){
-                    var new_roster = context.rosters.shift();
-                    context.rosters.push(new_roster);
+                    if (context.current_roster == "red"){
+                        var new_roster = context.blue_roster;
+                        context.current_roster = "blue";
+                    } else if (context.current_roster == "blue"){
+                        var new_roster = context.red_roster;
+                        context.current_roster = "red";
+                    }
                     context.all_usernames = new_roster.usernames;
                     context.team_logo = new_roster.logo;
+                    context.team_name = new_roster.name;
                     context.splitUsernames();
                     anime({
                         targets: '#rosters-team-logo',

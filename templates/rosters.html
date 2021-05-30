@@ -21,7 +21,10 @@
         <div class="hero-body">
             <div class="columns is-vcentered" style="width: 100%; margin: 80px;">
                 <div class="column is-one-fifth has-text-centered">
-                    <img :src="[[team_logo]]" id="rosters-team-logo">
+                    <div id="rosters-team-logo">
+                        <img :src="[[team_logo]]" v-if="team_logo">
+                        <h1 class="secondary-title akira" v-else>[[team_name]]</h1>
+                    </div>
                 </div>
                 <div class="column">
                     <div class="rosters-container">
