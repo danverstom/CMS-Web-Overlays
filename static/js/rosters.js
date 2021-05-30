@@ -33,17 +33,51 @@ const Rosters = {
             this.lower_usernames = this.all_usernames.slice(-half);
         },
         cycleRosters() {
-            var new_roster = this.rosters.shift();
-            this.rosters.push(new_roster);
-            this.all_usernames = new_roster.usernames;
-            this.team_logo = new_roster.logo;
-            this.splitUsernames();
+            var t1 = anime.timeline();
+            var context = this;
+            t1.add({
+                targets: '.card',
+                opacity: [1, 0],
+                rotateZ: [0, 10],
+                translateY: [0, 200],
+                delay: anime.stagger(50),
+                easing: "easeInBack",
+                duration: 500,
+                complete: function(){
+                    var new_roster = context.rosters.shift();
+                    context.rosters.push(new_roster);
+                    context.all_usernames = new_roster.usernames;
+                    context.team_logo = new_roster.logo;
+                    context.splitUsernames();
+                    anime({
+                        targets: '#rosters-team-logo',
+                        opacity: [0, 1],
+                        duration: 500,
+                        easing: "easeOutBack",
+                    })
+                }
+            })
+            t1.add({
+                targets: '#rosters-team-logo',
+                opacity: [1, 0],
+                duration: 500,
+                easing: "easeInBack",
+            }, 0)
+            t1.add({
+                targets: '.card',
+                opacity: [0, 1],
+                rotateZ: [-10, 0],
+                translateY: [-200, 0],
+                delay: anime.stagger(50),
+                easing: "easeOutBack",
+                duration: 500
+            })
         }
     },
     created: function () {
         this.splitUsernames();
         this.cycleRosters();
-        setInterval(this.cycleRosters, 10000)
+        setInterval(this.cycleRosters, 3000)
     },
     delimiters: ['[[', ']]']
 }
