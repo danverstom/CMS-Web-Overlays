@@ -19,22 +19,41 @@
 <body>
     <section class="hero is-fullheight" id="rosters" style="background-color: var(--cms_dark_blue);">
         <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="rosters-container">
-                    <nav class="level rosters-level" v-for="name_group in usernames">
-                        <div class="level-item" v-for="name in name_group">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="container has-text-centered">
-                                        <h1 class="title steelfish" style="margin: 10px;">[[name]]</h1>
+            <div class="columns is-vcentered" style="width: 100%; margin: 80px;">
+                <div class="column is-one-fifth has-text-centered">
+                    <img :src="[[team_logo]]">
+                </div>
+                <div class="column">
+                    <div class="rosters-container">
+                        <nav class="level rosters-level">
+                            <div class="level-item" v-for="name in upper_usernames">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="container has-text-centered">
+                                            <h1 class="title steelfish" style="margin: 10px;">[[name]]</h1>
+                                        </div>
+                                    </div>
+                                    <div>
+                                            <img :src="'https://cravatar.eu/helmavatar/' + [[ name ]] + '/128.png'" class="rosters-head"></img>
                                     </div>
                                 </div>
-                                <div>
-                                        <img :src="'https://cravatar.eu/helmavatar/' + [[ name ]] + '/128.png'" class="rosters-head"></img>
+                            </div>
+                        </nav>
+                        <nav class="level rosters-level">
+                            <div class="level-item" v-for="name in lower_usernames">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="container has-text-centered">
+                                            <h1 class="title steelfish" style="margin: 10px;">[[name]]</h1>
+                                        </div>
+                                    </div>
+                                    <div>
+                                            <img :src="'https://cravatar.eu/helmavatar/' + [[ name ]] + '/128.png'" class="rosters-head"></img>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </nav>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
