@@ -111,7 +111,12 @@ class RosterCommands(Cog, QuartWebSocket, name="Roster Commands"):
             }
         )
         if messages_sent:
-            await success_embed(ctx, f"Changed displayed roster to {rosters['current_team']} team\nSent roster change instruction to `{messages_sent}` clients")
+            await success_embed(
+                ctx, 
+                f"Sent new {team_name} roster to `{messages_sent}` clients\n\n```\n" + 
+                "\n".join(usernames) + 
+                "\n```"
+            )
         else:
             await error_embed(ctx, "No web clients connected")
     
