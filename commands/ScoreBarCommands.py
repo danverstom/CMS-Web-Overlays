@@ -41,7 +41,9 @@ class ScoreBarCommands(Cog, QuartWebSocket, name="Score Bar Commands"):
         @self.collect_websocket
         async def scorebar_ws(queue):
             await websocket.send_json({
-                "action_type": "connected"
+                "action_type": "connected",
+                "ws_type": "scorebar",
+                "score_bar_data": score_bar_data
             })
             while True:
                 data = await queue.get()

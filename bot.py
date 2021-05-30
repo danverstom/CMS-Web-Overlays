@@ -15,11 +15,13 @@ from commands.AdminCommands import AdminCommands
 from commands.CardCommands import CardCommands
 from commands.ScoreBarCommands import ScoreBarCommands
 from commands.TitlePageCommands import TitlePageCommands
+from commands.RosterCommands import RosterCommands
 
 bot.add_cog(AdminCommands(bot, slash, bot_token))
 bot.add_cog(CardCommands(bot))
 bot.add_cog(ScoreBarCommands(bot))
 bot.add_cog(TitlePageCommands(bot))
+bot.add_cog(RosterCommands(bot))
 
 @bot.event
 async def on_ready():

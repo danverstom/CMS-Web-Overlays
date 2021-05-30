@@ -22,6 +22,10 @@ async def starting_soon():
 async def interval():
     return await render_template("interval.html")
 
+@app.route("/rosters")
+async def rosters_page():
+    return await render_template("rosters.html")
+
 
 if __name__ == "__main__":
     app.run(WEB_SERVER_HOSTNAME, WEB_SERVER_PORT)
