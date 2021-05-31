@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS Team Rosters</title>
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/node_modules/vue/dist/vue.global.js"></script>
+    <script src="/static/node_modules/animejs/lib/anime.min.js" defer></script>
+    <script type="module" src="/static/js/team_win.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="/static/assets/icon.png" />
+</head>
+
+<body style="background-color: var(--cms_dark_blue);">
+    <section class="hero is-fullheight" id="team_win">
+        <div class="hero-body">
+            <div class="columns is-vcentered" style="width: 100%; margin: 80px;">
+                <div class="column is-one-third has-text-centered" v-if="team_win_data.team_logos.length">
+                    <div id="rosters-team-logo" v-for="logo in team_win_data.team_logos">
+                        <img :src="logo" style="width: 300px; margin: 20px;">
+                    </div>
+                </div>
+                <div class="column has-text-centered">
+                    <h1 class="primary-title akira">[[team_win_data.primary_text]]</h1>
+                    <h1 class="secondary-title akira">[[team_win_data.secondary_text]]</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
