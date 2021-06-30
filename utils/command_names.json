@@ -1,1 +1,1 @@
-["debug", "removecommands", "restart", "commentators", "nextmap", "notification", "scores", "teams", "countdown", "intervalmessage", "toggleteams", "nextroster", "setroster", "teamwin"]
+["debug", "removecommands", "restart", "commentators", "nextmap", "notification", "scores", "teams", "countdown", "intervalmessage", "toggleteams", "nextroster", "setroster", "teamwin", "_add", "_roster", "_set", "_show"]

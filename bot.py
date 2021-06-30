@@ -8,7 +8,7 @@ import traceback
 
 # Creating the bot object
 intents = discord.Intents.all()
-bot = Bot(command_prefix="-", intents=intents)
+bot = Bot(command_prefix="?", intents=intents)
 slash = SlashCommand(bot, sync_commands=SYNC_COMMANDS)
 
 from commands.AdminCommands import AdminCommands
@@ -17,6 +17,7 @@ from commands.ScoreBarCommands import ScoreBarCommands
 from commands.TitlePageCommands import TitlePageCommands
 from commands.RosterCommands import RosterCommands
 from commands.TeamWinCommands import TeamWinCommands
+from commands.draftcmds import draftcmds
 
 
 bot.add_cog(AdminCommands(bot, slash, bot_token))
@@ -25,6 +26,8 @@ bot.add_cog(ScoreBarCommands(bot))
 bot.add_cog(TitlePageCommands(bot))
 bot.add_cog(RosterCommands(bot))
 bot.add_cog(TeamWinCommands(bot))
+bot.add_cog(draftcmds(bot))
+
 
 @bot.event
 async def on_ready():
