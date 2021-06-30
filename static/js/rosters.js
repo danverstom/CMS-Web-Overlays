@@ -35,7 +35,7 @@ const Rosters = {
             if (this.all_usernames) {
                 var half = Math.ceil(this.all_usernames.length / 2);
                 this.upper_usernames = this.all_usernames.slice(0, half);
-                this.lower_usernames = this.all_usernames.slice(-half);
+                this.lower_usernames = this.all_usernames.slice(-(this.all_usernames.length - half));
             } else {
                 console.error("No usernames in list")
             }
