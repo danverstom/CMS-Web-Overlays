@@ -26,6 +26,10 @@ async def interval():
 async def rosters_page():
     return await render_template("rosters.html")
 
+@app.route("/team_win")
+async def team_win_page():
+    return await render_template("team_win.html")
+
 
 if __name__ == "__main__":
     app.run(WEB_SERVER_HOSTNAME, WEB_SERVER_PORT)
