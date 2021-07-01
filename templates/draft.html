@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS Draft</title>
+    <link rel="stylesheet" href="/static/css/bulma.css">
+    <link rel="stylesheet" href="/static/css/fonts.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/node_modules/vue/dist/vue.global.js"></script>
+    <script src="/static/node_modules/animejs/lib/anime.min.js" defer></script>
+    <script type="module" src="/static/js/draft.js"></script>
+
+    <link rel="shortcut icon" type="image/png" href="/static/assets/icon.png" />
+</head>
+
+<body>
+    <section class="hero is-fullheight" id="draft" style="background-color: var(--cms_dark_blue);">
+        <div class="hero-body">
+            <div class="columns is-vcentered" style="width: 100%; margin: 80px;">
+                <div class="column is-one-third has-text-centered">
+                    <div id="draft-leader">
+                        <img :src="'https://cravatar.eu/helmavatar/' + [[current_team]] + '/256.png'">
+                        <h1 class="akira" style="font-size: 30px; color: white;">[[current_team]]</h1>
+                    </div>
+                </div>
+                <div class="column is-one-third">
+                    <transition-group @enter="enter" @leave="leave">
+                        <div v-for="username in left_usernames"
+                            :class="['columns is-vcentered draft-player', username === latest_player ? 'highlight' : '']"
+                            :key="username">
+                            <div class="column is-3">
+                                <figure class="image is-64x64">
+                                    <img :src="'https://cravatar.eu/helmavatar/' + [[ username ]] + '/64.png'"
+                                        style="border-radius: 10px;">
+                                </figure>
+                            </div>
+                            <div class="column is-9 is-vcentered">
+                                <p class="akira draft-player-text">[[username]]</p>
+                            </div>
+                        </div>
+                    </transition-group>
+                </div>
+                <div class="column is-one-third">
+                    <transition-group @enter="enter" @leave="leave">
+                        <div v-for="username in right_usernames"
+                            :class="['columns is-vcentered draft-player', username === latest_player ? 'highlight' : '']"
+                            :key="username">
+                            <div class="column is-3">
+                                <figure class="image is-64x64">
+                                    <img :src="'https://cravatar.eu/helmavatar/' + [[ username ]] + '/64.png'"
+                                        style="border-radius: 10px;">
+                                </figure>
+                            </div>
+                            <div class="column is-9 is-vcentered">
+                                <p class="akira draft-player-text">[[username]]</p>
+                            </div>
+                        </div>
+                    </transition-group>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

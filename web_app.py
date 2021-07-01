@@ -30,6 +30,10 @@ async def rosters_page():
 async def team_win_page():
     return await render_template("team_win.html")
 
+@app.route("/draft")
+async def draft_page():
+    return await render_template("draft.html")
+
 
 if __name__ == "__main__":
     app.run(WEB_SERVER_HOSTNAME, WEB_SERVER_PORT)

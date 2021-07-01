@@ -17,6 +17,7 @@ from commands.ScoreBarCommands import ScoreBarCommands
 from commands.TitlePageCommands import TitlePageCommands
 from commands.RosterCommands import RosterCommands
 from commands.TeamWinCommands import TeamWinCommands
+from commands.DraftCommands import DraftCommands
 
 
 bot.add_cog(AdminCommands(bot, slash, bot_token))
@@ -25,6 +26,7 @@ bot.add_cog(ScoreBarCommands(bot))
 bot.add_cog(TitlePageCommands(bot))
 bot.add_cog(RosterCommands(bot))
 bot.add_cog(TeamWinCommands(bot))
+bot.add_cog(DraftCommands(bot))
 
 @bot.event
 async def on_ready():
