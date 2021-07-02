@@ -23,6 +23,7 @@ def save_draft_data():
     with open("draft_data.json", "w+") as f:
         json.dump(draft_data, f, indent=2)
 
+
 draft_data = {}
 
 
@@ -67,14 +68,15 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         player_uuid = MojangAPI.get_uuid(player)
         if not (leader_uuid and player_uuid):
             return await ctx.send("Could not find UUID for either the leader or the player")
-        leader = MojangAPI.get_username(leader_uuid)  # get correct case from API
+        leader = MojangAPI.get_username(
+            leader_uuid)  # get correct case from API
         player = MojangAPI.get_username(player_uuid)
 
         item = {
             "leader": leader,
             "player": player
         }
-        
+
         if "queue" in draft_data.keys():
             draft_data["queue"].append(item)
         else:
@@ -85,7 +87,6 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         save_draft_data()
 
         return await success_embed(ctx, f"Added player `{player}` to team `{leader}`")
-
 
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def draft_next(self, ctx):
@@ -98,9 +99,9 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
             return await error_embed(ctx, "There are not any queued picks yet. Please use /queue")
         if not draft_data["queue"]:
             return await error_embed(ctx, "The draft queue is empty. Use /queue to add a pick")
-        
+
         pick = draft_data["queue"].pop(0)  # remove first item from queue
-        
+
         if "teams" not in draft_data.keys():
             draft_data["teams"] = {}
 
@@ -112,7 +113,7 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         draft_data["current_team"] = pick["leader"]
 
         draft_data["latest_pick"] = pick
-        
+
         pprint(draft_data)
 
         save_draft_data()
@@ -125,13 +126,12 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         )
         if messages_sent:
             await success_embed(
-                ctx, 
+                ctx,
                 f"`{pick['leader']}` picks `{pick['player']}`!\n\n"
                 f"Sent new draft data to {messages_sent} clients")
         else:
             await error_embed(ctx, "No web clients connected")
 
-    
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def draft_undo(self, ctx):
         """
@@ -145,11 +145,12 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
 
         removed_pick = draft_data["queue"].pop()  # no arg = last item
 
+        save_draft_data()
+
         return await success_embed(
-            ctx, 
+            ctx,
             f"Removed player `{removed_pick['player']}` picked by `{removed_pick['leader']}` from the queue"
         )
-
 
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def cleardraft(self, ctx):
@@ -170,10 +171,23 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
             global draft_data
             draft_data = {}
             save_draft_data()
+
+            messages_sent = await self.broadcast(
+                {
+                    "action_type": "update_draft_data",
+                    "draft_data": draft_data if draft_data else False
+                }
+            )
+            if messages_sent:
+                await success_embed(
+                    ctx,
+                    f"Sent new draft data to {messages_sent} clients")
+            else:
+                await error_embed(ctx, "No web clients connected")
+
             return await success_embed(ctx, "Cleared draft data")
         else:
             return await response_embed(ctx, "Cancelled", "Cancelled clearing draft data")
-
 
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def draft_view(self, ctx, leader):
@@ -183,7 +197,7 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
 
         if leader.lower() not in [key.lower() for key in draft_data["teams"].keys()]:
             return await error_embed(
-                ctx, 
+                ctx,
                 f"The leader {leader} does not exist.\n\n"
                 f"Leaders: {', '.join(['`' + key + '`' for key in draft_data['teams'].keys()])}"
             )
@@ -208,7 +222,7 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         )
         if messages_sent:
             await success_embed(
-                ctx, 
+                ctx,
                 f"Sent new draft data to {messages_sent} clients")
         else:
             await error_embed(ctx, "No web clients connected")
