@@ -19,7 +19,7 @@
 <body>
     <section class="hero is-fullheight" id="draft" style="background-color: var(--cms_dark_blue);">
         <div class="hero-body">
-            <div class="columns is-vcentered" style="width: 100%; margin: 80px;">
+            <div class="columns is-vcentered" style="width: 100%; margin: 80px;" v-if="draft_data">
                 <div class="column is-one-third has-text-centered">
                     <div id="draft-leader">
                         <img :src="'https://cravatar.eu/helmavatar/' + [[current_team]] + '/256.png'">
@@ -59,6 +59,16 @@
                             </div>
                         </div>
                     </transition-group>
+                </div>
+            </div>
+            <div class="columns" v-else>
+                <div class="column is-half">
+                    <h1 class="akira primary-title">
+                        Waiting for the first pick
+                    </h1>
+                    <h2 class="akira secondary-title">
+                        Draft Team Tournament
+                    </h2>
                 </div>
             </div>
         </div>

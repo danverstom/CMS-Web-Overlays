@@ -6,7 +6,7 @@ const Rosters = {
             right_usernames: [],
             current_team: "Notch",
 
-            draft_data: {},
+            draft_data: false,
             latest_player: ""
         }
     },
@@ -85,13 +85,18 @@ const Rosters = {
                     console.log("Draft Websocket Connected");
                     console.log(data.draft_data)
                     this.draft_data = data.draft_data
-                    this.latest_player = this.draft_data.latest_pick.player
-                    this.draftNextPlayer();
+                    if (this.draft_data){
+                        this.latest_player = this.draft_data.latest_pick.player
+                        this.draftNextPlayer();
+                    }
+                            
                 }
             } else if (data.action_type == "update_draft_data") {
                 this.draft_data = data.draft_data
-                this.latest_player = this.draft_data.latest_pick.player
-                this.draftNextPlayer();
+                if (this.draft_data){
+                    this.latest_player = this.draft_data.latest_pick.player
+                    this.draftNextPlayer();
+                }
             }
         },
         connectWebSocket(context, endpoint) {

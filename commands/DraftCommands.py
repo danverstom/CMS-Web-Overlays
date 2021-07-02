@@ -26,9 +26,14 @@ def save_draft_data():
 draft_data = {}
 
 
-if os.path.exists("draft_data.json"):
-    with open("draft_data.json", "r") as f:
+def load_draft_data():
+    global draft_data
+    with open("draft_data.json", "r+") as f:
         draft_data = json.load(f)
+
+
+if os.path.exists("draft_data.json"):
+    load_draft_data()
 else:
     save_draft_data()
 
@@ -42,10 +47,11 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         @app.websocket("/ws/draft")
         @self.collect_websocket
         async def draft_ws(queue):
+            pprint(draft_data)
             await websocket.send_json({
                 "action_type": "connected",
                 "ws_type": "draft",
-                "draft_data": draft_data
+                "draft_data": draft_data if draft_data else False
             })
             while True:
                 data = await queue.get()
@@ -56,6 +62,7 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         """
         Queue a pick to be covered by the stream when the stream operators do /draft_next
         """
+        load_draft_data()
         leader_uuid = MojangAPI.get_uuid(leader)
         player_uuid = MojangAPI.get_uuid(player)
         if not (leader_uuid and player_uuid):
@@ -85,6 +92,8 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         """
         Progress the live stream on to the next pick, removing it from the queue
         """
+        load_draft_data()
+        pprint(draft_data)
         if not "queue" in draft_data.keys():
             return await error_embed(ctx, "There are not any queued picks yet. Please use /queue")
         if not draft_data["queue"]:
@@ -111,11 +120,14 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         messages_sent = await self.broadcast(
             {
                 "action_type": "update_draft_data",
-                "draft_data": draft_data
+                "draft_data": draft_data if draft_data else False
             }
         )
         if messages_sent:
-            await success_embed(ctx, f"Send new draft data to {messages_sent} clients\n\n")
+            await success_embed(
+                ctx, 
+                f"`{pick['leader']}` picks `{pick['player']}`!\n\n"
+                f"Sent new draft data to {messages_sent} clients")
         else:
             await error_embed(ctx, "No web clients connected")
 
@@ -125,6 +137,7 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
         """
         Remove the last item out of the draft queue
         """
+        load_draft_data()
         if not "queue" in draft_data.keys():
             return await error_embed(ctx, "There are not any queued picks yet. Please use /draft_queue")
         if not draft_data["queue"]:
@@ -160,3 +173,42 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
             return await success_embed(ctx, "Cleared draft data")
         else:
             return await response_embed(ctx, "Cancelled", "Cancelled clearing draft data")
+
+
+    @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
+    async def draft_view(self, ctx, leader):
+        """
+        Switch view to a different team
+        """
+
+        if leader.lower() not in [key.lower() for key in draft_data["teams"].keys()]:
+            return await error_embed(
+                ctx, 
+                f"The leader {leader} does not exist.\n\n"
+                f"Leaders: {', '.join(['`' + key + '`' for key in draft_data['teams'].keys()])}"
+            )
+
+        leader = get_close_matches(leader, draft_data["teams"].keys())[0]
+
+        draft_data["current_team"] = leader
+        draft_data["latest_pick"] = {
+            "leader": False,
+            "player": False
+        }
+
+        pprint(draft_data)
+
+        save_draft_data()
+
+        messages_sent = await self.broadcast(
+            {
+                "action_type": "update_draft_data",
+                "draft_data": draft_data if draft_data else False
+            }
+        )
+        if messages_sent:
+            await success_embed(
+                ctx, 
+                f"Sent new draft data to {messages_sent} clients")
+        else:
+            await error_embed(ctx, "No web clients connected")
