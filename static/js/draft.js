@@ -12,12 +12,20 @@ const Rosters = {
     },
     methods: {
         splitUsernames() {
-            if (this.all_usernames) {
-                var half = Math.ceil(this.all_usernames.length / 2);
-                this.left_usernames = this.all_usernames.slice(0, half);
-                this.right_usernames = this.all_usernames.slice(-(this.all_usernames.length - half));
+            if (this.all_usernames.length) {
+                console.log(this.all_usernames)
+                if (this.all_usernames.length > 1){
+                    var half = Math.ceil(this.all_usernames.length / 2);
+                    this.left_usernames = this.all_usernames.slice(0, half);
+                    this.right_usernames = this.all_usernames.slice(-(this.all_usernames.length - half));
+                } else if (this.all_usernames.length == 1) {
+                    this.left_usernames = [this.all_usernames[0]]
+                    this.right_usernames = []
+                }
             } else {
-                console.error("No usernames in list")
+                console.log("No usernames in list")
+                this.left_usernames = []
+                this.right_usernames = []
             }
 
         },

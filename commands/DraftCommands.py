@@ -1,5 +1,6 @@
 from discord.ext.commands import Cog
 from discord_slash.cog_ext import cog_slash, manage_commands
+from discord import Message
 from quart import jsonify
 from utils.utils import *
 from utils.config import *
@@ -11,6 +12,7 @@ from mojang import MojangAPI
 from re import findall
 from json import load, dump
 from pprint import pprint
+from asyncio import TimeoutError
 
 # Websockets Support
 from utils.websockets import *
@@ -18,8 +20,8 @@ from quart import websocket
 
 
 def save_draft_data():
-    with open("draft_data.json", "w") as f:
-        json.dump(draft_data, f)
+    with open("draft_data.json", "w+") as f:
+        json.dump(draft_data, f, indent=2)
 
 draft_data = {}
 
@@ -51,6 +53,9 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
 
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def queue(self, ctx, leader, player):
+        """
+        Queue a pick to be covered by the stream when the stream operators do /draft_next
+        """
         leader_uuid = MojangAPI.get_uuid(leader)
         player_uuid = MojangAPI.get_uuid(player)
         if not (leader_uuid and player_uuid):
@@ -77,10 +82,13 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
 
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def draft_next(self, ctx):
+        """
+        Progress the live stream on to the next pick, removing it from the queue
+        """
         if not "queue" in draft_data.keys():
-            return await error_embed(ctx, "There are not any queued picks yet. Please use /draft_queue")
+            return await error_embed(ctx, "There are not any queued picks yet. Please use /queue")
         if not draft_data["queue"]:
-            return await error_embed(ctx, "The draft queue is empty. Use /draft_queue to add a pick")
+            return await error_embed(ctx, "The draft queue is empty. Use /queue to add a pick")
         
         pick = draft_data["queue"].pop(0)  # remove first item from queue
         
@@ -114,6 +122,9 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
     
     @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
     async def draft_undo(self, ctx):
+        """
+        Remove the last item out of the draft queue
+        """
         if not "queue" in draft_data.keys():
             return await error_embed(ctx, "There are not any queued picks yet. Please use /draft_queue")
         if not draft_data["queue"]:
@@ -125,3 +136,27 @@ class DraftCommands(Cog, QuartWebSocket, name="Roster Commands"):
             ctx, 
             f"Removed player `{removed_pick['player']}` picked by `{removed_pick['leader']}` from the queue"
         )
+
+
+    @cog_slash(guild_ids=SLASH_COMMANDS_GUILDS)
+    async def cleardraft(self, ctx):
+        """
+        Removes any stored data for the draft overlays
+        """
+        await response_embed(ctx, "Are you sure?", "Please confirm that you'd like to clear the draft data (y/n)")
+
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        try:
+            response: Message = await self.bot.wait_for("message", check=check, timeout=60)
+        except TimeoutError:
+            return await error_embed(ctx, "Confirmation timed out")
+
+        if response.content.lower() in ["yes", "y", "confirm", "ok"]:
+            global draft_data
+            draft_data = {}
+            save_draft_data()
+            return await success_embed(ctx, "Cleared draft data")
+        else:
+            return await response_embed(ctx, "Cancelled", "Cancelled clearing draft data")
