@@ -11,7 +11,7 @@ const ScoreBar = {
     data() {
         return {
             current_text: "CTF Match Spotlight",
-            text_items: ["CTF Match Spotlight", "Draft Team Tournament"],
+            text_items: ["CTF Match Spotlight", "Winter Games 2022"],
             red_name: "Red Team",
             red_score: 0,
             red_logo: "",
